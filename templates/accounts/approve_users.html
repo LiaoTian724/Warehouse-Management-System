@@ -1,0 +1,28 @@
+<h1>
+用户审核
+</h1>
+
+
+{% for profile in users %}
+
+
+<p>
+
+账号:
+
+{{profile.user.username}}
+
+
+姓名:
+
+{{profile.real_name}}
+
+
+状态:
+
+{{profile.status}}
+
+</p>
+
+
+{% endfor %}

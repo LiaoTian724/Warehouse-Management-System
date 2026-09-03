@@ -1,0 +1,52 @@
+<h1>
+仓库管理系统
+</h1>
+
+
+<h3>
+欢迎 {{request.user.username}}
+</h3>
+
+
+<h2>
+库存列表
+</h2>
+
+
+<table border="1">
+
+<tr>
+
+<th>
+名称
+</th>
+
+<th>
+数量
+</th>
+
+</tr>
+
+
+
+{% for item in items %}
+
+<tr>
+
+<td>
+{{item.name}}
+</td>
+
+
+<td>
+{{item.quantity}}
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+</table>
