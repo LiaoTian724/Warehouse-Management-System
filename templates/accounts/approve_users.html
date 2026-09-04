@@ -1,28 +1,68 @@
-<h1>
+<h2>
 用户审核
-</h1>
+</h2>
 
 
-{% for profile in users %}
+<table border="1">
+
+<tr>
+<th>
+账号
+</th>
+
+<th>
+姓名
+</th>
+
+<th>
+状态
+</th>
+
+<th>
+操作
+</th>
+
+</tr>
 
 
-<p>
 
-账号:
+{% for user in users %}
 
-{{profile.user.username}}
+<tr>
 
-
-姓名:
-
-{{profile.real_name}}
+<td>
+{{user.user.username}}
+</td>
 
 
-状态:
+<td>
+{{user.real_name}}
+</td>
 
-{{profile.status}}
 
-</p>
+<td>
+{{user.status}}
+</td>
 
+
+<td>
+
+<a href="">
+通过
+</a>
+
+
+<a href="">
+拒绝
+</a>
+
+
+</td>
+
+
+</tr>
 
 {% endfor %}
+
+
+</table>

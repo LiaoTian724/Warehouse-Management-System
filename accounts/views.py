@@ -26,10 +26,22 @@ def register(request):
                 {"error":"账号必须以P开头"}
             )
 
+        # 检查用户名是否存在
+        if User.objects.filter(username=username).exists():
+            return render(
+                request,
+                "accounts/register.html",
+                {"error":"该账号已经存在，请更换账号"}
+            )
+        
         # 姓名格式化
         real_name = (real_name[0].upper()  +  real_name[1:].lower())
-
-
+        if not real_name:
+            return render(
+                request,
+                "accounts/register.html",
+                {"error":"请输入姓名拼音"}
+            )
         user = User.objects.create_user(
             username=username,
             password=password
@@ -39,7 +51,8 @@ def register(request):
         UserProfile.objects.create(
             user=user,
             real_name=real_name,
-            is_approved=False
+            role="USER",   # 普通用户
+            status="PENDING"  # 等待管理员审核
         )
 
 
@@ -63,21 +76,28 @@ def login_view(request):
             password=password
         )
 
-        if user is not None:
-             # 超级管理员直接登录
-            if user.is_superuser:
-                login(request, user)
-                return redirect("/")
+        if user is None:
+            return render(
+                request,
+                "accounts/login.html",
+                {"error":"用户名或密码错误"}
+            )
 
-            profile = user.userprofile
 
-            if profile.status != "APPROVED":
-                  return render( request, "accounts/login.html", 
-                                {"error": "账号正在审核，请等待管理员批准"})
-
-            login(request,user)
+            
+        # 超级管理员直接登录
+        if user.is_superuser:
+            login(request, user)
             return redirect("/")
 
+        profile = user.userprofile
+
+        if profile.status != "APPROVED":
+                return render( request, "accounts/login.html", 
+                            {"error": "账号正在审核，请等待管理员批准"})
+
+        login(request,user)
+        return redirect("/")                    
 
     return render(
         request,
@@ -85,25 +105,23 @@ def login_view(request):
     )
 
 
+
+
+
 @login_required
 def approve_users(request):
+    # 判断管理员
+    profile = request.user.userprofile
 
-    if request.user.userprofile.role != "ADMIN":
+    if profile.role != "ADMIN":
+        return HttpResponse("没有权限")
 
-        return HttpResponse(
-            "没有权限"
-        )
-
-    users = UserProfile.objects.filter(
-        status="PENDING"
-    )
+    users = UserProfile.objects.filter(status="PENDING")
 
     return render(
         request,
         "accounts/approve_users.html",
-        {
-            "users":users
-        }
+        {"users": users}
     )
 
 

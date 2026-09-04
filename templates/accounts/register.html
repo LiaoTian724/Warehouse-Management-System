@@ -2,6 +2,11 @@
 
 {% csrf_token %}
 
+{% if error %}
+<p style="color:red;">
+{{ error }}
+</p>
+{% endif %}
 
 登录账号:
 

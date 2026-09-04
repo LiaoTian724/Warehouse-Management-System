@@ -10,4 +10,10 @@ urlpatterns = [
         name="index"
     ),
 
+    path(
+        "inventory/",
+        views.inventory_list,
+        name="inventory_list"
+    ),
+
 ]
