@@ -13,6 +13,7 @@ class UserProfile(models.Model):
         ("PENDING", "等待审核"),
         ("APPROVED", "已通过"),
         ("REJECTED", "已拒绝"),
+        ("DISABLED","已禁用"),
     ]
 
 
@@ -38,6 +39,11 @@ class UserProfile(models.Model):
         max_length=20,
         choices=STATUS_CHOICES,
         default="PENDING"
+    )
+
+    approved_time = models.DateTimeField(
+        null=True,
+        blank=True
     )
 
 

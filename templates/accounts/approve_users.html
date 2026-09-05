@@ -1,11 +1,64 @@
 <h2>
-用户审核
+待审核用户
 </h2>
 
 
 <table border="1">
 
 <tr>
+<th>账号</th>
+<th>姓名</th>
+<th>操作</th>
+</tr>
+
+
+{% for profile in pending_users %}
+
+
+<tr>
+
+<td>
+{{profile.user.username}}
+</td>
+
+
+<td>
+{{profile.real_name}}
+</td>
+
+
+<td>
+
+<a href="{% url 'approve_user' profile.user.username %}">
+通过
+</a>
+
+
+<a href="{% url 'reject_user' profile.user.username %}">
+拒绝
+</a>
+
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+</table>
+
+
+<h2>
+审核历史
+</h2>
+
+
+<table border="1">
+
+<tr>
+
 <th>
 账号
 </th>
@@ -19,48 +72,40 @@
 </th>
 
 <th>
-操作
+审核时间
 </th>
 
 </tr>
 
 
+{% for profile in checked_users %}
 
-{% for user in users %}
 
 <tr>
 
+
 <td>
-{{user.user.username}}
+{{profile.user.username}}
 </td>
 
 
 <td>
-{{user.real_name}}
+{{profile.real_name}}
 </td>
 
 
 <td>
-{{user.status}}
+{{profile.status}}
 </td>
 
 
 <td>
-
-<a href="">
-通过
-</a>
-
-
-<a href="">
-拒绝
-</a>
-
-
+{{profile.approved_time}}
 </td>
 
 
 </tr>
+
 
 {% endfor %}
 
