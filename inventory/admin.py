@@ -2,13 +2,13 @@ from django.contrib import admin
 
 from .models import (
     Item,
-    Attribute,
+    ItemAttribute,
     StockRecord
 )
 
 
 class AttributeInline(admin.TabularInline):
-    model = Attribute
+    model = ItemAttribute
     extra = 1
 
 
@@ -28,7 +28,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 
-@admin.register(Attribute)
+@admin.register(ItemAttribute)
 class AttributeAdmin(admin.ModelAdmin):
     list_display = (
         "item",

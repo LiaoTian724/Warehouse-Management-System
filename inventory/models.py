@@ -6,17 +6,38 @@ from django.contrib.auth.models import User
 # 物品表
 # =========================
 class Item(models.Model):
-    name = models.CharField(max_length=100)
-    quantity = models.IntegerField(default=0)
+
+    name = models.CharField(
+        max_length=100
+    )
+
+
+    category = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+
+    quantity = models.IntegerField(
+        default=0
+    )
+
+
+    location = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
 
     status = models.CharField(
-      max_length=20,
-      choices=[
+        max_length=20,
+        choices=[
             ("正常","正常"),
             ("停用","停用"),
-      ],
-      default="正常"
+        ],
+        default="正常"
     )
+
 
     created_by = models.ForeignKey(
         User,
@@ -24,7 +45,11 @@ class Item(models.Model):
         null=True,
         related_name="created_items"
     )
-    created_time = models.DateTimeField(auto_now_add=True)
+
+
+    created_time = models.DateTimeField(
+        auto_now_add=True
+    )
 
     def __str__(self):
         return self.name
@@ -34,7 +59,7 @@ class Item(models.Model):
 # =========================
 # 动态属性表
 # =========================
-class Attribute(models.Model):
+class ItemAttribute(models.Model):
     item = models.ForeignKey(
         Item,
         on_delete=models.CASCADE,
@@ -74,6 +99,10 @@ class StockRecord(models.Model):
         max_length=20,
         choices=TYPE_CHOICES
     )
+    reason = models.CharField(
+        max_length=200,
+        blank=True
+    )
 
     quantity = models.IntegerField()
     purpose = models.CharField(
@@ -89,4 +118,9 @@ class StockRecord(models.Model):
 
     created_time = models.DateTimeField(
         auto_now_add=True
+    )
+
+    remark = models.CharField(
+        max_length=200,
+        blank=True
     )

@@ -474,3 +474,25 @@ Warehouse Management System（WMS）
 -   StockRecord
 
 三者之间的关系。
+
+
+
+
+
+库存权限怎么改？
+物品属性太少怎么办？
+动态属性不能依赖 Django Admin，怎么设计？
+库存列表信息太少怎么办？
+顺序	模块	目标	需要修改/新增	使用方法
+1	数据模型重构	确定仓库核心数据结构	inventory/models.py	Django Model、ForeignKey、字段设计
+2	数据迁移	让数据库同步新模型	migration 文件	makemigrations、migrate
+3	权限系统整理	确认管理员/普通用户权限	views.py	request.user.userprofile.role 判断
+4	库存列表页面重做	普通用户和管理员查看库存	inventory_list.html	Template循环、条件显示
+5	物品详情页面	查看一个物品全部信息	新增 view + html	URL参数、ForeignKey查询
+6	动态属性系统	支持管理员添加任意属性	新 Model + 表单	One-to-Many、动态表单
+7	独立新增物品页面	替代 Django Admin	create_item	Django Form / POST
+8	管理员修改物品	修改名称、属性等	update_item	ModelForm
+9	库存停用功能	不真正删除物品	disable_item	状态字段(status)
+10	操作记录	记录谁什么时候改了库存	StockRecord	ForeignKey + 时间记录
+11	图片上传	入库/操作时记录位置照片	ImageField	MEDIA配置、文件上传
+12	页面美化	提升使用体验	CSS	Bootstrap/CSS

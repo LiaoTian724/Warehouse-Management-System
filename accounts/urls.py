@@ -18,4 +18,23 @@ urlpatterns = [
         views.reject_user,
         name="reject_user"
     ),
+
+    path(
+        "disable_user/<str:username>/",
+        views.disable_user,
+        name="disable_user"
+    ),
+
+
+    path(
+        "enable_user/<str:username>/",
+        views.enable_user,
+        name="enable_user"
+    ),
+
+    path(
+        "change_role/<str:username>/",
+        views.change_role,
+        name="change_role"
+    ),
 ]

@@ -6,14 +6,34 @@ urlpatterns = [
 
     path(
         "",
-        views.index,
-        name="index"
+        views.inventory_list,
+        name="inventory_list"
+    ),
+
+
+    path(
+        "create/",
+        views.create_item,
+        name="create_item"
     ),
 
     path(
-        "inventory/",
-        views.inventory_list,
-        name="inventory_list"
+        "detail/<int:id>/",
+        views.item_detail,
+        name="item_detail"
+    ),
+
+    path(
+        "stock_in/<int:id>/",
+        views.stock_in,
+        name="stock_in"
+    ),
+
+
+    path(
+        "increase/<int:id>/",
+        views.increase_stock,
+        name="increase_stock"
     ),
 
 ]

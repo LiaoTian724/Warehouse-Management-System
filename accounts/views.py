@@ -222,3 +222,77 @@ def reject_user(request, username):
     return redirect(
         "approve_users"
     )
+
+
+
+@login_required
+def disable_user(request, username):
+    if request.method != "POST":
+        return HttpResponse("非法请求")
+
+    profile = UserProfile.objects.get(user__username=username)
+
+    profile.status="DISABLED"
+    profile.save()
+
+    return redirect("approve_users")
+
+
+@login_required
+def enable_user(request, username):
+    if request.method != "POST":
+        return HttpResponse("非法请求")
+
+    profile = UserProfile.objects.get(user__username=username)
+    profile.status = "APPROVED"
+
+    profile.save()
+
+    return redirect("approve_users")
+
+
+@login_required
+def change_role(request, username):
+    
+    if request.method != "POST":
+
+        return HttpResponse(
+            "非法请求"
+        )
+
+
+    # 当前操作者
+    admin = request.user.userprofile
+
+
+    if admin.role != "ADMIN":
+
+        return HttpResponse(
+            "没有权限"
+        )
+
+
+    profile = UserProfile.objects.get(
+        user__username=username
+    )
+
+    if profile.user == request.user:
+            return HttpResponse(
+                "不能修改自己的权限"
+            )
+    
+    if profile.role == "ADMIN":
+        profile.role = "USER"
+
+
+    else:
+
+        profile.role = "ADMIN"
+
+
+    profile.save()
+
+
+    return redirect(
+        "approve_users"
+    )
